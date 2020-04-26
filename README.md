@@ -1,2 +1,4 @@
 # angular
-Project Angular
+Project Angular JS.
+
+Development by Muhammad Rifqi
