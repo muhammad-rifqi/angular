@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Angular App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="assets/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<!-- Custom Theme files -->
+<link href="assets/css/style.css" rel='stylesheet' type='text/css' />
+<link href="assets/css/font-awesome.css" rel="stylesheet">
+<script src="assets/js/angular.min.js"> </script>
+<script src="assets/js/jquery.min.js"> </script>
+<script src="assets/js/bootstrap.min.js"> </script>
+</head>
+<body ng-app="AngularJSLogin" ng-controller="AngularLoginController as angCtrl">
+	<div class="login">
+		<h1><a href="index.html">LOGIN PAGE </a></h1>
+		<div class="login-bottom">
+			<form name="login" ng-submit="angCtrl.loginForm()" class="form-horizontal" method="POST">
+			<div class="col-md-12">
+				<div class="login-mail">
+					<input type="text" required ng-model="angCtrl.inputData.username">
+					<i class="fa fa-envelope"></i>
+				</div>
+				<div class="login-mail">
+					<input type="password" required ng-model="angCtrl.inputData.password">
+					<i class="fa fa-lock"></i>
+				</div>
+
+			</div>
+			<div class="col-md-12 login-do">
+				<label class="hvr-shutter-in-horizontal login-sub">
+					<input type="submit" value="login">
+					</label>
+			</div>
+			<div class="clearfix"> </div>
+			<div class="alert alert-danger" ng-show="errorMsg">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                ×</button>
+                <span class="fa fa-lock"></span>&nbsp;&nbsp;{{errorMsg}}
+            </div>
+			</form>
+		</div>
+	</div>
+		<!---->
+<div class="copy-right">
+            <p> &copy; 2020 Minimal. All Rights Reserved </p>	    </div>
+<!---->
+<!--scrolling js-->
+	<script src="assets/js/jquery.nicescroll.js"></script>
+	<script src="assets/js/scripts.js"></script>
+	<!--//scrolling js-->
+	<script>
+	angular.module('AngularJSLogin', [])
+	.controller('AngularLoginController', ['$scope', '$http', function($scope, $http) {
+		this.loginForm = function() {
+
+			var user_data='username=' +this.inputData.username+'&password='+this.inputData.password;
+		//	console.log(user_data);
+			$http({
+				method: 'POST',
+				url: 'library/cek_login.php',
+				data: user_data,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+
+			})
+			.success(function(data) {
+				console.log(data);
+				if ( data.trim() === 'correct') {
+					window.location.href = 'template/beranda.html';
+				} else {
+					$scope.errorMsg = "Invalid Username and Password";
+				}
+			})
+		}
+	}]);
+	</script>
+</body>
+</html>
